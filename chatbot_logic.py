@@ -316,11 +316,8 @@ def show_categorized_menu():
 def generate_conversational_response(context):
     # st.session_state.chat_history.append({"role": "user", "content": context})
     # Define the system prompt that sets the behavior of the chatbot
-    system_prompt = f"""
-    You are a chatbot for a Taco Bell restaurant.
-    Your job is to assist customers in answering questions about the menu and placing their orders.
-    Only respond to questions or commands related to ordering food. 
-    """
+    system_prompt = "You are a chatbot for a Taco Bell restaurant. Your job is to assist customers in answering questions about the menu and placing their orders. Only respond to questions or commands related to ordering food."
+
     messages = [
         {
             "role": "system",
