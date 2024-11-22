@@ -330,6 +330,8 @@ def generate_conversational_response(context):
         }
     ]
 
+    print("3 HERE")
+
     # Step 1: send the conversation and available functions to the model
     response = client.chat.completions.create(
         model=MODEL,
@@ -337,7 +339,7 @@ def generate_conversational_response(context):
         max_tokens=100,
     )
 
-    os.write(f"Here: {response_message}")
+    print(4, f"Here: {response_message}")
     response_message = response.choices[0].message.content
 
     return response_message
