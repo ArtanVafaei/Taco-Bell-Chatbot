@@ -337,7 +337,8 @@ def generate_conversational_response(context):
         messages=messages,
         max_tokens=100,
     )
-
+    print(response)
+    print(response)
     response_message = response.choices[0].message
 
     return response_message
