@@ -3,6 +3,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import streamlit as st
 import re
+import os
 import spacy
 import requests
 from groq import Groq
@@ -336,6 +337,7 @@ def generate_conversational_response(context):
         max_tokens=100,
     )
 
+    os.write(f"Here: {response_message}")
     response_message = response.choices[0].message.content
 
     return response_message
