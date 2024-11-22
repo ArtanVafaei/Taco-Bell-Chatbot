@@ -6,8 +6,8 @@ import re
 import spacy
 
 # Load model
-tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B")
-model = AutoModelForCausalLM.from_pretrained("meta-llama/Meta-Llama-3-8B").to("cuda" if torch.cuda.is_available() else "cpu")
+tokenizer = AutoTokenizer.from_pretrained("gpt2")
+model = AutoModelForCausalLM.from_pretrained("gpt2").to("cuda" if torch.cuda.is_available() else "cpu")
 
 # Set the padding token to eos_token (End of Sequence token) to avoid padding errors
 tokenizer.pad_token = tokenizer.eos_token
