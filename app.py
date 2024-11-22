@@ -397,6 +397,7 @@ def handle_message(user_input):
 
     elif intent == 'cancel_order':
         st.session_state.order.clear()
+        st.session_state.total = 0.0
         context = "The user cancelled the entire order."
         response = remove_context(generate_conversational_response(context))
 
