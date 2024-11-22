@@ -247,13 +247,6 @@ def add_custom_styles():
         unsafe_allow_html=True,
     )
 
-# Define the system prompt that sets the behavior of the chatbot
-system_prompt = f"""
-You are a chatbot for a Taco Bell restaurant.
-Your job is to assist customers in answering questions about the menu and placing their orders.
-Only respond to questions or commands related to ordering food. 
-"""
-
 # Initialize session state if not already done
 if 'order' not in st.session_state:
     st.session_state.order = defaultdict(int)  # item name: quantity
@@ -404,7 +397,6 @@ def handle_message(user_input):
 
     elif intent == 'cancel_order':
         st.session_state.order.clear()
-        st.session_state.total = 0.0
         context = "The user cancelled the entire order."
         response = remove_context(generate_conversational_response(context))
 

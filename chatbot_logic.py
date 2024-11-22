@@ -3,30 +3,17 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import streamlit as st
 import re
-import os
 import spacy
-import requests
-from groq import Groq
 
-# Initialize Groq client and model
-client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-MODEL = "llama3-70b-8192"
+# Load GPT-2 or a similar model (replace with your model if needed)
+tokenizer = AutoTokenizer.from_pretrained("gpt2")
+model = AutoModelForCausalLM.from_pretrained("gpt2").to("cuda" if torch.cuda.is_available() else "cpu")
 
-# model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
-
-# # # Load model
-# tokenizer = AutoTokenizer.from_pretrained(model_id, token=st.secrets["HF_TOKEN"])
-# model = AutoModelForCausalLM.from_pretrained(
-#     model_id,
-#     torch_dtype=torch.bfloat16,
-#     device_map="auto",
-#     token=st.secrets["HF_TOKEN"]
-# ).to("cuda" if torch.cuda.is_available() else "cpu")
-
-# # Set the padding token to eos_token (End of Sequence token) to avoid padding errors
-# tokenizer.pad_token = tokenizer.eos_token
+# Set the padding token to eos_token (End of Sequence token) to avoid padding errors
+tokenizer.pad_token = tokenizer.eos_token
 
 # Connect to MongoDB
+print(st.secrets)
 client = pymongo.MongoClient(st.secrets["MONGODB_URI"])
 db = client["taco_bell_menu"]
 print("Connected to MongoDB")
@@ -177,11 +164,10 @@ def simplify_sentence(user_input):
 
 # Remove the context message from the chatbot's output
 def remove_context(response):
-    # system_prompt = f"You are a chatbot for a Taco Bell restaurant. Your job is to assist customers in answering questions about the menu and placing their orders. Only respond to questions or commands related to ordering food. Do not generate any other kind of response."
-    # new_response = response.replace(system_prompt, "")
-    # new_response = new_response.replace("\n", "", 2)
-    # return new_response
-    return response
+    system_prompt = "You are a chatbot for a Taco Bell restaurant. Your job is to assist customers in answering questions about the menu and placing their orders. Only respond to questions or commands related to ordering food. Do not generate any other kind of response."
+    new_response = response.replace(system_prompt, "")
+    new_response = new_response.replace("\n", "", 2)
+    return new_response
 
 # Identify intent from keywords
 def detect_intent(input):
@@ -315,77 +301,27 @@ def show_categorized_menu():
 
 # Function to generate conversational responses using GPT-2 or another model
 def generate_conversational_response(context):
-    # st.session_state.chat_history.append({"role": "user", "content": context})
     # Define the system prompt that sets the behavior of the chatbot
-    system_prompt = "You are a chatbot for a Taco Bell restaurant. Your job is to assist customers in answering questions about the menu and placing their orders. Only respond to questions or commands related to ordering food."
+    system_prompt = (
+        "You are a chatbot for a Taco Bell restaurant. Your job is to assist customers in answering questions about the menu and placing their orders. "
+        "Only respond to questions or commands related to ordering food. Do not generate any other kind of response. "
+    )
+    
+    # Combine the system prompt with the current context
+    full_prompt = f"{system_prompt}\n\n{context}"
+    
+    # Tokenize the prompt
+    inputs = tokenizer(full_prompt, return_tensors="pt", padding=True, truncation=True).to(model.device)
 
-    messages = [
-        {
-            "role": "system",
-            "content": system_prompt
-        },
-        {
-            "role": "user",
-            "content": context
-        }
-    ]
-
-    print("3 HERE")
-
-    # Step 1: send the conversation and available functions to the model
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=messages,
-        max_tokens=100,
+    # Generate a response from the model using the input tokens and attention mask
+    outputs = model.generate(
+        inputs["input_ids"], 
+        attention_mask=inputs["attention_mask"],  
+        max_length=150, 
+        pad_token_id=tokenizer.eos_token_id,  
+        do_sample=True
     )
 
-    print(4, f"Here: {response_message}")
-    response_message = response.choices[0].message.content
-
-    return response_message
-
-    # messages = [
-    #     {"role": "system", "content": system_prompt},
-    #     {"role": "user", "content": context}
-    # ]
-
-    # input_ids = tokenizer.apply_chat_template(
-    #     messages,
-    #     add_generation_prompt=True,
-    #     return_tensors="pt"
-    # ).to(model.device)
-
-    # terminators = [
-    #     tokenizer.eos_token_id,
-    #     tokenizer.convert_tokens_to_ids("<|eot_id|>")
-    # ]
-
-    # outputs = model.generate(
-    #     input_ids,
-    #     max_new_tokens=256,
-    #     eos_token_id=terminators,
-    #     do_sample=True,
-    #     temperature=0.6,
-    #     top_p=0.9,
-    # )
-    # response = outputs[0][input_ids.shape[-1]:]
-    # return tokenizer.decode(response, skip_special_tokens=True)
-
-    # # Tokenize the prompt
-    # inputs = tokenizer(full_prompt, return_tensors="pt", padding=True, truncation=True).to(model.device)
-
-    # # Combine the system prompt with the current context
-    # full_prompt = f"{system_prompt}\n\n{context}"
-
-    # # Generate a response from the model using the input tokens and attention mask
-    # outputs = model.generate(
-    #     inputs["input_ids"], 
-    #     attention_mask=inputs["attention_mask"],  
-    #     max_length=150, 
-    #     pad_token_id=tokenizer.eos_token_id,  
-    #     do_sample=True
-    # )
-
-    # # Decode the model's output to get the generated text
-    # response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    # return response.strip()
+    # Decode the model's output to get the generated text
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return response.strip()
