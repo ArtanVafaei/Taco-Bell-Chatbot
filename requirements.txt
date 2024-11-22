@@ -1,4 +1,3 @@
-[-e] https://github.com/ArtanVafaei/Taco-Bell-Chatbot/blob/43a35687b9d7821cb3fa48b3fb08affdcd7a9b30/chatbot_logic.py
 aiohappyeyeballs==2.4.0
 aiohttp==3.10.5
 aiosignal==1.2.0
