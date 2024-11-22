@@ -176,10 +176,11 @@ def simplify_sentence(user_input):
 
 # Remove the context message from the chatbot's output
 def remove_context(response):
-    system_prompt = f"You are a chatbot for a Taco Bell restaurant. Your job is to assist customers in answering questions about the menu and placing their orders. Only respond to questions or commands related to ordering food. Do not generate any other kind of response."
-    new_response = response.replace(system_prompt, "")
-    new_response = new_response.replace("\n", "", 2)
-    return new_response
+    # system_prompt = f"You are a chatbot for a Taco Bell restaurant. Your job is to assist customers in answering questions about the menu and placing their orders. Only respond to questions or commands related to ordering food. Do not generate any other kind of response."
+    # new_response = response.replace(system_prompt, "")
+    # new_response = new_response.replace("\n", "", 2)
+    # return new_response
+    return response
 
 # Identify intent from keywords
 def detect_intent(input):
