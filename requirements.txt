@@ -78,7 +78,7 @@ spacy-legacy==3.0.12
 spacy-loggers==1.0.4
 srsly==2.4.8
 streamlit==1.38.0
-sympy==1.13.2
+sympy==1.13.3
 tenacity==8.2.3
 thinc==8.2.2
 tokenizers==0.20.1
