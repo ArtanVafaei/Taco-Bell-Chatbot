@@ -38,7 +38,7 @@ MarkupSafe==2.1.3
 mdurl==0.1.0
 mkl_fft==1.3.11
 mkl_random==1.2.8
-mkl-service==2.4.0
+mkl-service
 mpmath==1.3.0
 multidict==6.1.0
 multiprocess==0.70.15
