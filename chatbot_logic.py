@@ -8,7 +8,7 @@ import requests
 from groq import Groq
 
 # Initialize Groq client and model
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 MODEL = "llama3-70b-8192"
 
 # model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
