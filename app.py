@@ -260,7 +260,7 @@ if 'order' not in st.session_state:
 if 'total' not in st.session_state:
     st.session_state.total = 0.0  # total $ amount
 if 'chat_history' not in st.session_state:
-    st.session_state.chat_history = [system_prompt]  # Stores (user_message, bot_response) tuples
+    st.session_state.chat_history = []  # Stores (user_message, bot_response) tuples
 if "current_page" not in st.session_state:
     st.session_state.current_page = "order"  # Default page
 
