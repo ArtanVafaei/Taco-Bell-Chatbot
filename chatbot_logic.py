@@ -339,7 +339,7 @@ def generate_conversational_response(context):
     )
     print(response)
     print(response)
-    response_message = response.choices[0].message
+    response_message = response.choices[0].message.content
 
     return response_message
 
