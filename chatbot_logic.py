@@ -1,8 +1,7 @@
 import pymongo
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
-from dotenv import load_dotenv
-import os
+import streamlit as st
 import re
 import spacy
 
@@ -13,14 +12,9 @@ model = AutoModelForCausalLM.from_pretrained("gpt2").to("cuda" if torch.cuda.is_
 # Set the padding token to eos_token (End of Sequence token) to avoid padding errors
 tokenizer.pad_token = tokenizer.eos_token
 
-# Load environment variables from the .env file
-load_dotenv()
-
-# Get the MongoDB URI from the environment variables
-mongodb_uri = os.getenv('MONGODB_URI')
-
 # Connect to MongoDB
-client = pymongo.MongoClient(mongodb_uri)
+print(st.secrets)
+client = pymongo.MongoClient(st.secrets["MONGODB_URI"])
 db = client["taco_bell_menu"]
 print("Connected to MongoDB")
 menu_items = db["menu_items"]
