@@ -22,6 +22,7 @@ cymem==2.0.6
 datasets==2.19.1
 dill==0.3.8
 dnspython==2.4.2
+en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85
 filelock==3.13.1
 frozenlist==1.5.0
 fsspec==2024.3.1
@@ -76,7 +77,6 @@ six==1.16.0
 smart-open==5.2.1
 smmap==4.0.0
 spacy==3.7.2
-https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
 spacy-legacy==3.0.12
 spacy-loggers==1.0.4
 srsly==2.4.8
