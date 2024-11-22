@@ -313,28 +313,13 @@ def show_categorized_menu():
 
 # Function to generate conversational responses using GPT-2 or another model
 def generate_conversational_response(context):
-    # Define the system prompt that sets the behavior of the chatbot
-    system_prompt = f"""
-    You are a chatbot for a Taco Bell restaurant.
-    Your job is to assist customers in answering questions about the menu and placing their orders.
-    Only respond to questions or commands related to ordering food. 
-    Do not generate any other kind of response."
-    Context: {context}
-    """
-
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {
-            "role": "user",
-            "content": context,
-        },
-    ]
+    st.session_state.chat_history.append({"role": "user", "content": context})
 
     # Step 1: send the conversation and available functions to the model
     response = client.chat.completions.create(
         model=MODEL,
-        messages=messages,
-        max_tokens=1024,
+        messages=st.session_state.chat_history,
+        max_tokens=100,
     )
 
     response_message = response.choices[0].message

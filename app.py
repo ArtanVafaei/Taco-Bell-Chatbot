@@ -247,13 +247,20 @@ def add_custom_styles():
         unsafe_allow_html=True,
     )
 
+# Define the system prompt that sets the behavior of the chatbot
+system_prompt = f"""
+You are a chatbot for a Taco Bell restaurant.
+Your job is to assist customers in answering questions about the menu and placing their orders.
+Only respond to questions or commands related to ordering food. 
+"""
+
 # Initialize session state if not already done
 if 'order' not in st.session_state:
     st.session_state.order = defaultdict(int)  # item name: quantity
 if 'total' not in st.session_state:
     st.session_state.total = 0.0  # total $ amount
 if 'chat_history' not in st.session_state:
-    st.session_state.chat_history = []  # Stores (user_message, bot_response) tuples
+    st.session_state.chat_history = [system_prompt]  # Stores (user_message, bot_response) tuples
 if "current_page" not in st.session_state:
     st.session_state.current_page = "order"  # Default page
 
