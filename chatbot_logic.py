@@ -317,7 +317,7 @@ def generate_conversational_response(context):
     outputs = model.generate(
         inputs["input_ids"], 
         attention_mask=inputs["attention_mask"],  
-        max_length=70, 
+        max_length=150, 
         pad_token_id=tokenizer.eos_token_id,  
         do_sample=True
     )
