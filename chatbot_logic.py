@@ -13,7 +13,6 @@ model = AutoModelForCausalLM.from_pretrained("gpt2").to("cuda" if torch.cuda.is_
 tokenizer.pad_token = tokenizer.eos_token
 
 # Connect to MongoDB
-print(st.secrets)
 client = pymongo.MongoClient(st.secrets["MONGODB_URI"])
 db = client["taco_bell_menu"]
 print("Connected to MongoDB")
@@ -29,7 +28,7 @@ intents = {
     'add_item': ['want', 'get', 'add', 'have', 'do'],
     'remove_item': ['remove', 'delete'],
     'get_price': ['price', 'cost', 'much'],
-    'get_description': ['describe', 'description'],
+    'get_description': ['ingredients', 'describe', 'description'],
     'get_tacos': ['taco'],
     'get_burritos': ['burrito', 'burritos'],
     'get_nachos': ['nachos'],
