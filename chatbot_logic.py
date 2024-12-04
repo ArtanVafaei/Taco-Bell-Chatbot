@@ -28,7 +28,7 @@ intents = {
     'add_item': ['want', 'get', 'add', 'have', 'do'],
     'remove_item': ['remove', 'delete'],
     'get_price': ['price', 'cost', 'much'],
-    'get_description': ['ingredients', 'describe', 'description'],
+    'get_description': ['contain', 'ingredients', 'describe', 'description'],
     'get_tacos': ['taco'],
     'get_burritos': ['burrito', 'burritos'],
     'get_nachos': ['nachos'],
