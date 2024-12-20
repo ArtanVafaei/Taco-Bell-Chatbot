@@ -1,4 +1,4 @@
-# Senior-project-tacobell
+# Taco Bell Chatbot
 
 create python venv to keep local env clean
 python3 -m venv myenv
